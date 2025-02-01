@@ -4,20 +4,11 @@ if not Characters then wait() end
 
 wait(3)
 
-_G.Settings = {
-    Main = {
-        ["AutoWalk"] = true,
-        ["World Select"] = 4, --{0, 1, 2, 3, 4}
-        ["Auto Join World"] = false,
-        ["Attack Type"] = "Short" -- {Short, Long}
-    }
-}
-
-_G.WalkSpeed = 50
-_G.TweenSpeed = 100
-_G.Attack = true
-_G.Skill = true
-_G.AutoWalk = true
+_G.WalkSpeed = _G.Settings.Main["Walk Speed"] or 22
+_G.TweenSpeed = _G.Settings.Main["Fly Speed"] or 100
+_G.Attack = _G.Settings.Main["Auto Attack"] or false
+_G.Skill = _G.Settings.Main["Auto Skill"] or false
+_G.AutoWalk = _G.Settings.Main["AutoWalk"] or false
 _G.GodMode = true
 
 
@@ -68,7 +59,7 @@ spawn(function()
                 [1] = true
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
-            task.wait()
+            wait(.5)
             local args = {
                 [1] = false
             }
