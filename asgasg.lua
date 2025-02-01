@@ -7,6 +7,7 @@ end
 local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait(3)
 
 if not Characters then wait(3) end
+wait(2)
 
 _G.WalkSpeed = _G.Settings.Main["Walk Speed"] or 22
 _G.TweenSpeed = _G.Settings.Main["Fly Speed"] or 100
@@ -161,21 +162,9 @@ function AiAttackWithTP(Pos)
     local goal = {CFrame = CFrame.new(Pos)}
     local tween = TweenService:Create(rootPart, tweenInfo, goal)
     tween:Play()
-    local part = Instance.new("Part", workspace)
-    part.Anchored = true
-    part.Size = Vector3.new(10, 0.01, 10)
-    spawn(function()
-        while task.wait() do
-            part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3, 0)
-            if not part then
-                break
-            end
-        end
-    end)
 
     -- รอจนกว่า tween จะเสร็จ
     tween.Completed:Wait()
-    part:Destroy()
     -- หลังจากเคลื่อนที่ถึงเป้าหมาย สามารถเพิ่มการโจมตีได้ที่นี่
     humanoid:MoveTo(Pos)
 end
@@ -456,5 +445,19 @@ local function removeAllObjectsInLighting()
 
     print("การลบอ็อบเจ็กต์ทั้งหมดใน Lighting เสร็จสิ้น")
 end
+
+local part = Instance.new("Part", workspace)
+part.Anchored = true
+part.Size = Vector3.new(10, 0.01, 10)
+
+spawn(function()
+    while task.wait() do
+        part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3, 0)
+        part.Color = rainbowColor(0.25)
+        if not part then
+            break
+        end
+    end
+end)
 
 removeAllObjectsInLighting()
