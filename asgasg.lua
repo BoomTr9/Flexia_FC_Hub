@@ -59,7 +59,7 @@ spawn(function()
                 [1] = true
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
-            wait(.5)
+            wait(1)
             local args = {
                 [1] = false
             }
