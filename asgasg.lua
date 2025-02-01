@@ -449,7 +449,7 @@ end
 local part = Instance.new("Part", workspace)
 part.Anchored = true
 part.Size = Vector3.new(10, 0.01, 10)
-
+part.Transparency = 0.75
 spawn(function()
     while task.wait() do
         part.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0))
