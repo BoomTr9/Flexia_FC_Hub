@@ -4,7 +4,7 @@ else
     game:GetService("Players").LocalPlayer:Kick("\n Your Key Is Wrong!\nPlease contact supporter")
 end
 
-local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait(1)
 
 if not Characters then wait() end
 
@@ -14,6 +14,7 @@ _G.Attack = _G.Settings.Main["Auto Attack"] or false
 _G.Skill = _G.Settings.Main["Auto Skill"] or false
 _G.AutoWalk = _G.Settings.Main["Auto Walk"] or false
 _G.SpeedAttack = _G.Settings.Main["Speed Attack"] or 2
+_G.AttackType = _G.Settings.Main["Attack Type"] or "VClick"
 _G.GodMode = true
 
 
@@ -44,7 +45,7 @@ local TweenService = game:GetService("TweenService")
 local onattack = false
 spawn(function()
     while wait(_G.SpeedAttack) do
-        if _G.Settings.Main["Attack Type"] == "Long" then
+        if _G.AttackType == "Long" then
             if _G.Attack and not onattack then
                 onattack = true
                 game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
@@ -52,10 +53,17 @@ spawn(function()
                 onattack = false
                 game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
             end
-        elseif _G.Settings.Main["Attack Type"] == "Short" then
+        elseif _G.AttackType == "Short" then
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
             wait()
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
+        elseif _G.AttackType == "VClick" then
+            -- จำลองการคลิกซ้ายของเมาส์
+            local VirtualInputManager = game:GetService("VirtualInputManager")
+        	sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
+            task.wait(0.1) -- เวลาระหว่างกดและปล่อย
+            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
         else
             warn("Please Select Attack Type!")
         end
