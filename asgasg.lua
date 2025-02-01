@@ -9,6 +9,7 @@ _G.TweenSpeed = _G.Settings.Main["Fly Speed"] or 100
 _G.Attack = _G.Settings.Main["Auto Attack"] or false
 _G.Skill = _G.Settings.Main["Auto Skill"] or false
 _G.AutoWalk = _G.Settings.Main["Auto Walk"] or false
+_G.SpeedAttack = _G.Settings.Main["Speed Attack"] or 2
 _G.GodMode = true
 
 
@@ -59,11 +60,12 @@ spawn(function()
                 [1] = true
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
-            wait(1)
+            wait(_G.SpeedAttack)
             local args = {
                 [1] = false
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
+            wait(_G.SpeedAttack)
         else
             warn("Please Select Attack Type!")
         end
