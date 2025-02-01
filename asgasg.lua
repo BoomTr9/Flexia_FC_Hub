@@ -4,9 +4,9 @@ else
     game:GetService("Players").LocalPlayer:Kick("\n Your Key Is Wrong!\nPlease contact supporter")
 end
 
-local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait(1)
+local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait(3)
 
-if not Characters then wait() end
+if not Characters then wait(3) end
 
 _G.WalkSpeed = _G.Settings.Main["Walk Speed"] or 22
 _G.TweenSpeed = _G.Settings.Main["Fly Speed"] or 100
