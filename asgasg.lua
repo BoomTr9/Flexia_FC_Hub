@@ -1,5 +1,5 @@
 if _G.Key == "UpdateBeta.1" then
-    print("\nTheKey: "..tostring(_G.Key).."is vaild")
+    print("\nTheKey: '"..tostring(_G.Key).."' is vaild")
 else
     game:GetService("Players").LocalPlayer:Kick("\n Your Key Is Wrong!\nPlease contact supporter")
 end
