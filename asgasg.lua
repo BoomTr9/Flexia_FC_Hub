@@ -46,7 +46,7 @@ local onattack = false
 spawn(function()
     while wait(_G.SpeedAttack) do
         if _G.AttackType == "Long" then
-            if _G.Attack and not onattack then
+            if _G.Attack then
                 onattack = true
                 game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
             elseif not _G.Attack then
