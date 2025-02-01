@@ -45,36 +45,21 @@ local TweenService = game:GetService("TweenService")
 -- ฟังก์ชั่นจำลองการคลิกเมาส์
 local onattack = false
 spawn(function()
-    while task.wait() do
+    while wait(_G.SpeedAttack) do
         if _G.Settings.Main["Attack Type"] == "Long" then
             if _G.Attack and not onattack then
                 onattack = true
-                local args = {
-                    [1] = true
-                }
-                
-                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
+                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
             elseif not _G.Attack or onattack then
                 onattack = false
-                local args = {
-                    [1] = false
-                }
-                
-                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
+                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
             else
                 warn("Some Things Is Wrong!")
             end
         elseif _G.Settings.Main["Attack Type"] == "Short" then
-            local args = {
-                [1] = true
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
-            wait(_G.SpeedAttack)
-            local args = {
-                [1] = false
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(unpack(args))
-            wait(_G.SpeedAttack)
+            game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
+            wait()
+            game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
         else
             warn("Please Select Attack Type!")
         end
