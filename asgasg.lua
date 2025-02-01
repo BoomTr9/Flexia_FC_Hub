@@ -8,8 +8,6 @@ local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlaye
 
 if not Characters then wait() end
 
-wait(3)
-
 _G.WalkSpeed = _G.Settings.Main["Walk Speed"] or 22
 _G.TweenSpeed = _G.Settings.Main["Fly Speed"] or 100
 _G.Attack = _G.Settings.Main["Auto Attack"] or false
