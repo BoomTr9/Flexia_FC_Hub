@@ -64,8 +64,6 @@ spawn(function()
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
             task.wait(0.1) -- เวลาระหว่างกดและปล่อย
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
-        else
-            warn("Please Select Attack Type!")
         end
     end
 end)
@@ -74,7 +72,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("Click").OnClientEvent:Connect
         onattack = false
     end
 end)
---[[
+
 -- ฟังก์ชั่นจำลองการกดปุ่ม Q
 spawn(function()
     while task.wait() do
@@ -146,7 +144,7 @@ spawn(function()
         end
     end
 end)
-]]
+
 -- ฟังก์ชันสำหรับเคลื่อนที่ไปยังตำแหน่งเป้าหมายด้วย TweenService
 function AiAttackWithTP(Pos)
     local plr = game:GetService("Players").LocalPlayer
