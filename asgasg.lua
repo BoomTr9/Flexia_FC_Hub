@@ -48,11 +48,9 @@ spawn(function()
             if _G.Attack and not onattack then
                 onattack = true
                 game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
-            elseif not _G.Attack or onattack then
+            elseif not _G.Attack then
                 onattack = false
                 game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
-            else
-                warn("Some Things Is Wrong!")
             end
         elseif _G.Settings.Main["Attack Type"] == "Short" then
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
