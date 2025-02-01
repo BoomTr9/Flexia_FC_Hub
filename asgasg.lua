@@ -223,7 +223,7 @@ spawn(function()
                     local enemyRootPart = closestEnemy:FindFirstChild("HumanoidRootPart")
                     if enemyRootPart then
                         if plr:DistanceFromCharacter(enemyRootPart.Position) < 20 then
-                            char:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(enemyRootPart.Position) + Vector3.new(0, 10, 0)
+                            char:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(enemyRootPart.Position)
                             posmons = enemyRootPart.Position
                         else
                             AiAttackWithTP(enemyRootPart.Position + Vector3.new(0, 10, 0))
@@ -452,7 +452,7 @@ part.Size = Vector3.new(10, 0.01, 10)
 
 spawn(function()
     while task.wait() do
-        part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame - Vector3.new(0, 3, 0)
+        part.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0))
         part.Color = rainbowColor(0.25)
         if not part then
             break
