@@ -245,7 +245,7 @@ spawn(function()
                     local enemyRootPart = closestEnemy:FindFirstChild("HumanoidRootPart")
                     if enemyRootPart then
                         if plr:DistanceFromCharacter(enemyRootPart.Position) < 20 then
-                            char:WaitForChild("HumanoidRootPart").CFrame = enemyRootPart.CFrame
+                            char:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(enemyRootPart.Position)
                             posmons = enemyRootPart.Position
                         else
                             AiAttackWithTP(enemyRootPart.Position)
