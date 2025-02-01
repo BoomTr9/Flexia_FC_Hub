@@ -69,14 +69,12 @@ spawn(function()
         end
     end
 end)
-spawn(function()
-    game:GetService("ReplicatedStorage"):WaitForChild("Click").OnClientEvent:Connect(function(b)
-        if b == false then
-            onattack = false
-        end
-    end)
+game:GetService("ReplicatedStorage"):WaitForChild("Click").OnClientEvent:Connect(function(b)
+    if b == false then
+        onattack = false
+    end
 end)
-
+--[[
 -- ฟังก์ชั่นจำลองการกดปุ่ม Q
 spawn(function()
     while task.wait() do
@@ -148,7 +146,7 @@ spawn(function()
         end
     end
 end)
-
+]]
 -- ฟังก์ชันสำหรับเคลื่อนที่ไปยังตำแหน่งเป้าหมายด้วย TweenService
 function AiAttackWithTP(Pos)
     local plr = game:GetService("Players").LocalPlayer
