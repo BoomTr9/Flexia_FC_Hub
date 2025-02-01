@@ -46,13 +46,11 @@ local onattack = false
 spawn(function()
     while wait(_G.SpeedAttack) do
         if _G.AttackType == "Long" then
-            if _G.Attack then
-                onattack = true
-                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
-            elseif not _G.Attack then
-                onattack = false
-                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
-            end
+            local args = {
+                [1] = true
+            }
+            
+            game:GetService("ReplicatedStorage").Click:FireServer(unpack(args))
         elseif _G.AttackType == "Short" then
             game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
             wait()
@@ -65,11 +63,6 @@ spawn(function()
             task.wait(0.1) -- เวลาระหว่างกดและปล่อย
             VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
         end
-    end
-end)
-game:GetService("ReplicatedStorage"):WaitForChild("Click").OnClientEvent:Connect(function(b)
-    if b == false then
-        onattack = false
     end
 end)
 
