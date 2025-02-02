@@ -6,6 +6,27 @@ end
 
 local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait(3)
 
+if not hookmetamethod then 
+    return warn('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
+end
+local LocalPlayer = game.Players.LocalPlayer
+local oldhmmi
+local oldhmmnc
+oldhmmi = hookmetamethod(game, "__index", function(self, method)
+    if self == LocalPlayer and method:lower() == "kick" then
+        return error("Expected ':' not '.' calling member function Kick", 2)
+    end
+    return oldhmmi(self, method)
+end)
+oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
+    if self == LocalPlayer and getnamecallmethod():lower() == "kick" then
+        return
+    end
+    return oldhmmnc(self, ...)
+end)
+
+warn('Client Antikick','Client anti kick is now active (only effective on localscript kick)')
+
 if not Characters then wait(3) end
 wait(2)
 
@@ -224,7 +245,7 @@ spawn(function()
                 if closestEnemy then
                     local enemyRootPart = closestEnemy:FindFirstChild("HumanoidRootPart")
                     if enemyRootPart then
-                        if plr:DistanceFromCharacter(enemyRootPart.Position) < 20 then
+                        if plr:DistanceFromCharacter(enemyRootPart.Position) < 20000000000 then
                             char:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(enemyRootPart.Position)
                             posmons = enemyRootPart.Position
                         else
@@ -309,7 +330,7 @@ spawn(function()
                         local crystalRoot = crystal:FindFirstChild("HumanoidRootPart") or crystal:FindFirstChild("PrimaryPart")
                         if crystalRoot and humanoid then
                             repeat
-                                if plr:DistanceFromCharacter(crystalRoot.Position) < 20 then
+                                if plr:DistanceFromCharacter(crystalRoot.Position) < 2000000 then
                                     posmons = crystalRoot.Position
                                     plr.Character.HumanoidRootPart.CFrame = CFrame.new(crystalRoot.Position)
                                 else
@@ -332,7 +353,7 @@ spawn(function()
                             if enemy:IsA("Model") then
                                 local enemyRoot = enemy:FindFirstChild("HumanoidRootPart") or enemy:FindFirstChild("PrimaryPart")
                                 if enemyRoot and humanoid and enemy.Name == "Ancient Fell Oak" then
-                                    if plr:DistanceFromCharacter(enemyRoot.Position) < 20 then
+                                    if plr:DistanceFromCharacter(enemyRoot.Position) < 200000000 then
                                         plr.Character.HumanoidRootPart.CFrame = CFrame.new(enemyRoot.Position)
                                         posmons = enemyRoot.Position
                                     else
