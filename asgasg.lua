@@ -46,23 +46,25 @@ local TweenService = game:GetService("TweenService")
 local onattack = false
 spawn(function()
     while wait(_G.SpeedAttack) do
-        if _G.AttackType == "Long" then
-            local args = {
-                [1] = true
-            }
-            
-            game:GetService("ReplicatedStorage").Click:FireServer(unpack(args))
-        elseif _G.AttackType == "Short" then
-            game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
-            wait()
-            game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
-        elseif _G.AttackType == "VClick" then
-            -- จำลองการคลิกซ้ายของเมาส์
-            local VirtualInputManager = game:GetService("VirtualInputManager")
-        	sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-            task.wait(0.1) -- เวลาระหว่างกดและปล่อย
-            VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+        if _G.Attack then
+            if _G.AttackType == "Long" then
+                local args = {
+                    [1] = true
+                }
+                
+                game:GetService("ReplicatedStorage").Click:FireServer(unpack(args))
+            elseif _G.AttackType == "Short" then
+                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(true)
+                wait()
+                game:GetService("ReplicatedStorage"):WaitForChild("Click"):FireServer(false)
+            elseif _G.AttackType == "VClick" then
+                -- จำลองการคลิกซ้ายของเมาส์
+                local VirtualInputManager = game:GetService("VirtualInputManager")
+            	sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
+                task.wait(0.1) -- เวลาระหว่างกดและปล่อย
+                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+            end
         end
     end
 end)
