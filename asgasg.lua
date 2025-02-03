@@ -325,6 +325,7 @@ spawn(function()
     end
 end)
 
+--[[
 -- ฟังก์ชัน God Mode
 spawn(function()
     while wait(1) do -- ลดความถี่การตรวจสอบ
@@ -338,7 +339,7 @@ spawn(function()
         end)
     end
 end)
-
+]]
 -- ต้นไม้
 spawn(function()
     local Attack_Boss = false
