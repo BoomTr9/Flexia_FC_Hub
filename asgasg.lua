@@ -310,16 +310,16 @@ spawn(function()
 	local nah = false
     while task.wait() do -- ลดความถี่การตรวจสอบ
         pcall(function()
-		if _G.GodMode then
-		    for _, hit in next, workspace.EnemyAttacks:GetChildren() do
-		        if hit:FindFirstChild("Hitbox") then
-		            hit.Hitbox.CanTouch = nah
-		            hit.Hitbox.CanCollide = nah
-		            hit.Hitbox.CanQuery = nah
-		            hit.Damage.Value = 0
-		        end
-		    end
-		end
+            if _G.GodMode then
+                for _, hit in next, workspace.EnemyAttacks:GetChildren() do
+                    if hit:FindFirstChild("Hitbox") then
+                        hit.Hitbox.CanTouch = nah
+                        hit.Hitbox.CanCollide = nah
+                        hit.Hitbox.CanQuery = nah
+                        hit.Damage.Value = 0
+                    end
+                end
+            end
         end)
     end
 end)
