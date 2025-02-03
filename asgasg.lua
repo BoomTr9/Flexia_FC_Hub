@@ -37,7 +37,7 @@ _G.Skill = _G.Settings.Main["Auto Skill"] or false
 _G.AutoWalk = _G.Settings.Main["Auto Walk"] or false
 _G.SpeedAttack = _G.Settings.Main["Speed Attack"] or 2
 _G.AttackType = _G.Settings.Main["Attack Type"] or "VClick"
-_G.GodMode = true
+_G.GodMode = false
 
 _G.radius = _G.Settings.Main["Radius Fly Circle"] or 15 -- ระยะห่างจากศูนย์กลาง
 _G.speed = _G.Settings.Main["Speed Fly Circle"] or 90 -- ความเร็ว (องศาต่อวินาที)
