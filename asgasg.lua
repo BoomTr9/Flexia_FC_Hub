@@ -68,35 +68,35 @@ local TweenService = game:GetService("TweenService")
 -- ฟังก์ชันบินวนรอบตำแหน่งที่กำหนด
 local function flyInCircle(centerPart)
 	local RunService = game:GetService("RunService")
-    local object = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
-    local radius = _G.radius
-    local speed = _G.speed
+	local object = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+	local radius = _G.radius
+	local speed = _G.speed
 	if not centerPart then
-		warn("CenterPart is missing")
-		return
-	end
-
+			warn("CenterPart is missing")
+			return
+		end
+	
 	local angle = 0 -- มุมเริ่มต้น
 	local connection
-
+	
 	connection = RunService.Heartbeat:Connect(function(deltaTime)
 		angle = angle + speed * deltaTime -- อัปเดตมุม
 		local radians = math.rad(angle) -- แปลงเป็นเรเดียน
-
+	
 		-- คำนวณตำแหน่งใหม่ของวัตถุ
 		local newX = centerPart.Position.X + radius * math.cos(radians)
 		local newZ = centerPart.Position.Z + radius * math.sin(radians)
-		local newPosition = Vector3.new(newX, centerPart.Position.Y, newZ)
-
+		local newPosition = Vector3.new(newX, centerPart.Position.Y + 10, newZ)
+	
 		-- อัปเดตตำแหน่งและการหมุนของวัตถุ
 		object.CFrame = CFrame.new(newPosition) * CFrame.Angles(0, math.rad(angle), 0)
-
+	
 		-- รีเซ็ตมุมเมื่อครบ 360 องศา
 		if angle >= 360 then
 			angle = angle - 360
 		end
 	end)
-
+	
 	return connection
 end
 
