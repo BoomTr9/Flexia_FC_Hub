@@ -39,6 +39,8 @@ _G.SpeedAttack = _G.Settings.Main["Speed Attack"] or 2
 _G.AttackType = _G.Settings.Main["Attack Type"] or "VClick"
 _G.GodMode = true
 
+_G.radius = _G.Settings.Main["Radius Fly Circle"] or 15 -- ระยะห่างจากศูนย์กลาง
+_G.speed = _G.Settings.Main["Speed Fly Circle"] or 90 -- ความเร็ว (องศาต่อวินาที)
 
 if game.PlaceId == 125503319883299 and _G.Settings.Main["Auto Join World"] then
     local args = {
@@ -62,6 +64,41 @@ local canw = true
 local StarterPack = game:GetService("StarterPack")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local TweenService = game:GetService("TweenService")
+
+-- ฟังก์ชันบินวนรอบตำแหน่งที่กำหนด
+local function flyInCircle(centerPart)
+	local RunService = game:GetService("RunService")
+    local object = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+    local radius = _G.radius
+    local speed = _G.speed
+	if not centerPart then
+		warn("CenterPart is missing")
+		return
+	end
+
+	local angle = 0 -- มุมเริ่มต้น
+	local connection
+
+	connection = RunService.Heartbeat:Connect(function(deltaTime)
+		angle = angle + speed * deltaTime -- อัปเดตมุม
+		local radians = math.rad(angle) -- แปลงเป็นเรเดียน
+
+		-- คำนวณตำแหน่งใหม่ของวัตถุ
+		local newX = centerPart.Position.X + radius * math.cos(radians)
+		local newZ = centerPart.Position.Z + radius * math.sin(radians)
+		local newPosition = Vector3.new(newX, centerPart.Position.Y, newZ)
+
+		-- อัปเดตตำแหน่งและการหมุนของวัตถุ
+		object.CFrame = CFrame.new(newPosition) * CFrame.Angles(0, math.rad(angle), 0)
+
+		-- รีเซ็ตมุมเมื่อครบ 360 องศา
+		if angle >= 360 then
+			angle = angle - 360
+		end
+	end)
+
+	return connection
+end
 
 -- ฟังก์ชั่นจำลองการคลิกเมาส์
 local onattack = false
@@ -185,11 +222,17 @@ function AiAttackWithTP(Pos)
     local goal = {CFrame = CFrame.new(Pos)}
     local tween = TweenService:Create(rootPart, tweenInfo, goal)
     tween:Play()
-
+    spawn(function()
+        while task.wait() do
+            if distanceToTarget < 20 then
+                tween:Stop()
+                break
+            end
+        end
+    end)
     -- รอจนกว่า tween จะเสร็จ
     tween.Completed:Wait()
     -- หลังจากเคลื่อนที่ถึงเป้าหมาย สามารถเพิ่มการโจมตีได้ที่นี่
-    humanoid:MoveTo(Pos)
 end
 
 -- แก้ลูปการหาและโจมตีศัตรูโดยใช้ TweenService
@@ -216,6 +259,8 @@ spawn(function()
                 local char = plr.Character or plr.CharacterAdded:Wait()
                 local charPos = char:FindFirstChild("HumanoidRootPart") and char.HumanoidRootPart.Position
 
+                local fly
+                        
                 if not charPos then return end
 
                 local closestEnemy, closestDistance = nil, math.huge
@@ -224,7 +269,7 @@ spawn(function()
                 for _, v in pairs(workspace.Enemies:GetChildren()) do
                     local health = v:FindFirstChild("HealthValue")
                     local enemyRootPart = v:FindFirstChild("HumanoidRootPart")
-                    if health and enemyRootPart and health.Value > 0 then
+                    if health and enemyRootPart and health.Value > 0 then        
                         local distance = (charPos - enemyRootPart.Position).Magnitude
                         if distance < closestDistance then
                             closestDistance = distance
@@ -233,6 +278,10 @@ spawn(function()
                                 while task.wait() do
                                     if health.Value <= 0 then
                                         posmons = nil
+                                        if fly then
+                                            fly:Disconnect()
+                                            fly = nil
+                                        end
                                         break
                                     end
                                 end
@@ -245,11 +294,11 @@ spawn(function()
                 if closestEnemy then
                     local enemyRootPart = closestEnemy:FindFirstChild("HumanoidRootPart")
                     if enemyRootPart then
-                        if plr:DistanceFromCharacter(enemyRootPart.Position) < 20000000000 then
-                            char:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(enemyRootPart.Position)
+                        if plr:DistanceFromCharacter(enemyRootPart.Position) < 20 then
+                            fly = flyInCircle(enemyRootPart)
                             posmons = enemyRootPart.Position
                         else
-                            AiAttackWithTP(enemyRootPart.Position + Vector3.new(0, 10, 0))
+                            AiAttackWithTP(enemyRootPart.Position)
                         end
                     end
                 end
@@ -299,6 +348,7 @@ spawn(function()
             local char = plr.Character or plr.CharacterAdded:Wait()
             local humanoid = char:FindFirstChildOfClass("Humanoid")
             local frame_Boss = plr.PlayerGui.BaseGui.Timer:FindFirstChild("Boss")
+            local fly
 
             if frame_Boss and frame_Boss.Visible and frame_Boss.BossName.Text == "Ancient Fell Oak" then
                 spawn(function()
@@ -330,9 +380,9 @@ spawn(function()
                         local crystalRoot = crystal:FindFirstChild("HumanoidRootPart") or crystal:FindFirstChild("PrimaryPart")
                         if crystalRoot and humanoid then
                             repeat
-                                if plr:DistanceFromCharacter(crystalRoot.Position) < 2000000 then
+                                if plr:DistanceFromCharacter(crystalRoot.Position) < 20 then
                                     posmons = crystalRoot.Position
-                                    plr.Character.HumanoidRootPart.CFrame = CFrame.new(crystalRoot.Position)
+                                    fly = flyInCircle(crystalRoot)
                                 else
                                     AiAttackWithTP(crystalRoot.Position)
                                 end
@@ -341,6 +391,10 @@ spawn(function()
 
                             if posmons ~= nil then
                                 posmons = nil
+                            end
+                            if fly then
+                                fly:Disconnect()
+                                fly = nil
                             end
                             -- ลบ Crystal หลังจากจัดการเสร็จ
                             if crystal then
@@ -354,13 +408,17 @@ spawn(function()
                                 local enemyRoot = enemy:FindFirstChild("HumanoidRootPart") or enemy:FindFirstChild("PrimaryPart")
                                 if enemyRoot and humanoid and enemy.Name == "Ancient Fell Oak" then
                                     if plr:DistanceFromCharacter(enemyRoot.Position) < 200000000 then
-                                        plr.Character.HumanoidRootPart.CFrame = CFrame.new(enemyRoot.Position)
+                                        fly = flyInCircle(enemyRoot)
                                         posmons = enemyRoot.Position
                                     else
                                         AiAttackWithTP(enemyRoot.Position)
                                     end
                                     if enemy.HealthValue.Value <= 0 then
                                         posmons = nil
+                                        if fly then
+                                            fly:Disconnect()
+                                            fly = nil
+                                        end
                                         break
                                     end
                                 end
