@@ -86,7 +86,7 @@ local function flyInCircle(centerPart)
 		-- คำนวณตำแหน่งใหม่ของวัตถุ
 		local newX = centerPart.Position.X + radius * math.cos(radians)
 		local newZ = centerPart.Position.Z + radius * math.sin(radians)
-		local newPosition = Vector3.new(newX, centerPart.Position.Y + 10, newZ)
+		local newPosition = Vector3.new(newX, centerPart.Position.Y - 10, newZ)
 	
 		-- อัปเดตตำแหน่งและการหมุนของวัตถุ
 		object.CFrame = CFrame.new(newPosition) * CFrame.Angles(0, math.rad(angle), 0)
