@@ -16,7 +16,7 @@ _G.Skill = _G.Settings.Main["Auto Skill"] or false
 _G.AutoWalk = _G.Settings.Main["Auto Walk"] or false
 _G.SpeedAttack = _G.Settings.Main["Speed Attack"] or 2
 _G.AttackType = _G.Settings.Main["Attack Type"] or "VClick"
-_G.GodMode = false
+_G.GodMode = true
 
 _G.radius = _G.Settings.Main["Radius Fly Circle"] or 15 -- ระยะห่างจากศูนย์กลาง
 _G.speed = _G.Settings.Main["Speed Fly Circle"] or 90 -- ความเร็ว (องศาต่อวินาที)
@@ -308,6 +308,7 @@ end)
 -- ฟังก์ชัน God Mode
 spawn(function()
 	local nah = false
+	print("God Mode Is On!")
     while task.wait() do -- ลดความถี่การตรวจสอบ
         pcall(function()
             if _G.GodMode then
