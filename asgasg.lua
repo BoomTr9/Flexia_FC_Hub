@@ -502,7 +502,7 @@ RunService.RenderStepped:Connect(function()
 end)
 game:GetService("Players").LocalPlayer.Character.Head.StatsBar.Enabled = false
 game:GetService("Players").LocalPlayer.PlayerGui.BaseGui.PlayerStats.Visible = false
-game:GetService("Players").LocalPlayer.PlayerGui.BaseGui.PlayerList.Visible = false
+--game:GetService("Players").LocalPlayer.PlayerGui.BaseGui.PlayerList.Visible = false
 
 
 -- ปรับวัสดุเป็น Plastic สำหรับ BasePart ทั้งหมดในเกม
