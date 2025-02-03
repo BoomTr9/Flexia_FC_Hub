@@ -1,4 +1,4 @@
-if _G.Key == "UpdateBeta.1" then
+if _G.Key == "UpdateBeta.2" then
     print("\nTheKey: '"..tostring(_G.Key).."' is vaild")
 else
     game:GetService("Players").LocalPlayer:Kick("\n Your Key Is Wrong!\nPlease contact supporter")
@@ -307,8 +307,8 @@ end)
 
 -- ฟังก์ชัน God Mode
 spawn(function()
-	local nah = false
-	print("God Mode Is On!")
+    local nah = false
+    print("God Mode Is On!")
     while task.wait() do -- ลดความถี่การตรวจสอบ
         pcall(function()
             if _G.GodMode then
