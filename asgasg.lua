@@ -512,7 +512,7 @@ local function removeAllObjectsInLighting()
 
     print("การลบอ็อบเจ็กต์ทั้งหมดใน Lighting เสร็จสิ้น")
 end
-
+--[[
 local part = Instance.new("Part", workspace)
 part.Anchored = true
 part.Size = Vector3.new(10, 0.01, 10)
@@ -526,5 +526,5 @@ spawn(function()
         end
     end
 end)
-
+]]
 removeAllObjectsInLighting()
