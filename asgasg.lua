@@ -1,6 +1,6 @@
 if _G.Key == "UpdateBeta.2" then
     print("\nTheKey: '"..tostring(_G.Key).."' is vaild")
-    print("Version: 0.0.2(Alpha)")
+    print("Version: 0.0.2(FIX)")
     local StarterGui = game:GetService("StarterGui")
 
     StarterGui:SetCore("SendNotification", {
@@ -344,7 +344,8 @@ end)
 -- ต้นไม้
 spawn(function()
     local Attack_Boss = false
-    while wait() do
+    while _G.Settings.Main["Auto Walk"] do
+		task.wait()
         pcall(function()
             local plr = game:GetService("Players").LocalPlayer
             local char = plr.Character or plr.CharacterAdded:Wait()
