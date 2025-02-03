@@ -1,6 +1,6 @@
 if _G.Key == "UpdateBeta.2" then
     print("\nTheKey: '"..tostring(_G.Key).."' is vaild")
-    print("Version: 0.0.2(FIX)")
+    print("Version: 0.0.2(Beta)")
     local StarterGui = game:GetService("StarterGui")
 
     StarterGui:SetCore("SendNotification", {
@@ -11,7 +11,7 @@ if _G.Key == "UpdateBeta.2" then
 
     StarterGui:SetCore("SendNotification", {
         Title = "Version Info";
-        Text = "Version: 0.0.2 (FIX)";
+        Text = "Version: 0.0.2 (Beta)";
         Duration = 5;
     })
 
@@ -80,7 +80,7 @@ local function flyInCircle(centerPart)
 		-- คำนวณตำแหน่งใหม่ของวัตถุ
 		local newX = centerPart.Position.X + radius * math.cos(radians)
 		local newZ = centerPart.Position.Z + radius * math.sin(radians)
-		local newPosition = Vector3.new(newX, centerPart.Position.Y, newZ)
+		local newPosition = Vector3.new(newX, centerPart.Position.Y - 2, newZ)
 	
 		-- อัปเดตตำแหน่งและการหมุนของวัตถุ
 		object.CFrame = CFrame.new(newPosition) * CFrame.Angles(0, math.rad(angle), 0)
@@ -345,7 +345,7 @@ end)
 spawn(function()
     local Attack_Boss = false
     while _G.Settings.Main["Auto Walk"] do
-		task.wait()
+        task.wait()
         pcall(function()
             local plr = game:GetService("Players").LocalPlayer
             local char = plr.Character or plr.CharacterAdded:Wait()
@@ -385,10 +385,10 @@ spawn(function()
                             repeat
                                 if plr:DistanceFromCharacter(crystalRoot.Position) < 20 then
                                     posmons = crystalRoot.Position
-                                    char.HumanoidRootPart.CFrame = CFrame.new(crystalRoot.Position)
+                                    char.HumanoidRootPart.CFrame = CFrame.new(crystalRoot.Position - Vector3.new(0, 2, 0))
                                     --fly = flyInCircle(crystalRoot)
                                 else
-                                    AiAttackWithTP(crystalRoot.Position)
+                                    AiAttackWithTP(crystalRoot.Position - Vector3.new(0, 2, 0))
                                 end
                                 wait(0.1) -- รอระหว่างการเคลื่อนที่
                             until not crystal or crystal.HealthValue.Value <= 0
@@ -411,12 +411,12 @@ spawn(function()
                             if enemy:IsA("Model") then
                                 local enemyRoot = enemy:FindFirstChild("HumanoidRootPart") or enemy:FindFirstChild("PrimaryPart")
                                 if enemyRoot and humanoid and enemy.Name == "Ancient Fell Oak" then
-                                    if plr:DistanceFromCharacter(enemyRoot.Position) < 200000000 then
+                                    if plr:DistanceFromCharacter(enemyRoot.Position + Vector3.new(30, 0, 0)) < 5 then
                                         --fly = flyInCircle(enemyRoot)
-                                        char.HumanoidRootPart.CFrame = CFrame.new(enemyRoot.Position)
+                                        char.HumanoidRootPart.CFrame = CFrame.new(enemyRoot.Position + Vector3.new(30, 0, 0))
                                         posmons = enemyRoot.Position
                                     else
-                                        AiAttackWithTP(enemyRoot.Position)
+                                        AiAttackWithTP(enemyRoot.Position + Vector3.new(30, 0, 0))
                                     end
                                     if enemy.HealthValue.Value <= 0 then
                                         posmons = nil
@@ -502,7 +502,7 @@ RunService.RenderStepped:Connect(function()
 end)
 game:GetService("Players").LocalPlayer.Character.Head.StatsBar.Enabled = false
 game:GetService("Players").LocalPlayer.PlayerGui.BaseGui.PlayerStats.Visible = false
---game:GetService("Players").LocalPlayer.PlayerGui.BaseGui.PlayerList.Visible = false
+game:GetService("Players").LocalPlayer.PlayerGui.BaseGui.PlayerList.Visible = false
 
 
 -- ปรับวัสดุเป็น Plastic สำหรับ BasePart ทั้งหมดในเกม
