@@ -1,5 +1,20 @@
 if _G.Key == "UpdateBeta.2" then
     print("\nTheKey: '"..tostring(_G.Key).."' is vaild")
+    print("Version: 0.0.2(Alpha)")
+    local StarterGui = game:GetService("StarterGui")
+
+    StarterGui:SetCore("SendNotification", {
+        Title = "BKT HUB KEY";
+        Text = "TheKey: '"..tostring(_G.Key).."' is valid";
+        Duration = 5; -- ระยะเวลาแสดง (วินาที)
+    })
+
+    StarterGui:SetCore("SendNotification", {
+        Title = "Version Info";
+        Text = "Version: 0.0.2 (Alpha)";
+        Duration = 5;
+    })
+
 else
     game:GetService("Players").LocalPlayer:Kick("\n Your Key Is Wrong!\nPlease contact supporter")
 end
@@ -530,4 +545,5 @@ spawn(function()
     end
 end)
 ]]
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _G.WalkSpeed
 removeAllObjectsInLighting()
