@@ -304,21 +304,26 @@ spawn(function()
     end
 end)
 
---[[
+
 -- ฟังก์ชัน God Mode
 spawn(function()
-    while wait(1) do -- ลดความถี่การตรวจสอบ
+	local nah = false
+    while task.wait() do -- ลดความถี่การตรวจสอบ
         pcall(function()
-            local AttackFol = workspace:WaitForChild("EnemyAttacks")
-            if AttackFol then
-                if _G.GodMode then
-                    AttackFol:Destroy()
-                end
-            end
+		if _G.GodMode then
+		    for _, hit in next, workspace.EnemyAttacks:GetChildren() do
+		        if hit:FindFirstChild("Hitbox") then
+		            hit.Hitbox.CanTouch = nah
+		            hit.Hitbox.CanCollide = nah
+		            hit.Hitbox.CanQuery = nah
+		            hit.Damage.Value = 0
+		        end
+		    end
+		end
         end)
     end
 end)
-]]
+
 -- ต้นไม้
 spawn(function()
     local Attack_Boss = false
