@@ -4,28 +4,7 @@ else
     game:GetService("Players").LocalPlayer:Kick("\n Your Key Is Wrong!\nPlease contact supporter")
 end
 
-local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait(3)
-
-if not hookmetamethod then 
-    return warn('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
-end
-local LocalPlayer = game.Players.LocalPlayer
-local oldhmmi
-local oldhmmnc
-oldhmmi = hookmetamethod(game, "__index", function(self, method)
-    if self == LocalPlayer and method:lower() == "kick" then
-        return error("Expected ':' not '.' calling member function Kick", 2)
-    end
-    return oldhmmi(self, method)
-end)
-oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
-    if self == LocalPlayer and getnamecallmethod():lower() == "kick" then
-        return
-    end
-    return oldhmmnc(self, ...)
-end)
-
-warn('Client Antikick','Client anti kick is now active (only effective on localscript kick)')
+local Characters = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 
 if not Characters then wait(3) end
 wait(2)
@@ -86,7 +65,7 @@ local function flyInCircle(centerPart)
 		-- คำนวณตำแหน่งใหม่ของวัตถุ
 		local newX = centerPart.Position.X + radius * math.cos(radians)
 		local newZ = centerPart.Position.Z + radius * math.sin(radians)
-		local newPosition = Vector3.new(newX, centerPart.Position.Y - 10, newZ)
+		local newPosition = Vector3.new(newX, centerPart.Position.Y, newZ)
 	
 		-- อัปเดตตำแหน่งและการหมุนของวัตถุ
 		object.CFrame = CFrame.new(newPosition) * CFrame.Angles(0, math.rad(angle), 0)
