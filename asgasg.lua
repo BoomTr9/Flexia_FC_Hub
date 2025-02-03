@@ -11,7 +11,7 @@ if _G.Key == "UpdateBeta.2" then
 
     StarterGui:SetCore("SendNotification", {
         Title = "Version Info";
-        Text = "Version: 0.0.2 (Alpha)";
+        Text = "Version: 0.0.2 (FIX)";
         Duration = 5;
     })
 
