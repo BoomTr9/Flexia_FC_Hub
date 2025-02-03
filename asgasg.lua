@@ -274,7 +274,8 @@ spawn(function()
                     local enemyRootPart = closestEnemy:FindFirstChild("HumanoidRootPart")
                     if enemyRootPart then
                         if plr:DistanceFromCharacter(enemyRootPart.Position) < 20 then
-                            fly = flyInCircle(enemyRootPart)
+                            --fly = flyInCircle(enemyRootPart)
+				            char.HumanoidRootPart.CFrame = CFrame.new(enemyRootPart.Position)
                             posmons = enemyRootPart.Position
                         else
                             AiAttackWithTP(enemyRootPart.Position)
@@ -368,7 +369,8 @@ spawn(function()
                             repeat
                                 if plr:DistanceFromCharacter(crystalRoot.Position) < 20 then
                                     posmons = crystalRoot.Position
-                                    fly = flyInCircle(crystalRoot)
+                                    char.HumanoidRootPart.CFrame = CFrame.new(crystalRoot.Position)
+                                    --fly = flyInCircle(crystalRoot)
                                 else
                                     AiAttackWithTP(crystalRoot.Position)
                                 end
@@ -394,7 +396,8 @@ spawn(function()
                                 local enemyRoot = enemy:FindFirstChild("HumanoidRootPart") or enemy:FindFirstChild("PrimaryPart")
                                 if enemyRoot and humanoid and enemy.Name == "Ancient Fell Oak" then
                                     if plr:DistanceFromCharacter(enemyRoot.Position) < 200000000 then
-                                        fly = flyInCircle(enemyRoot)
+                                        --fly = flyInCircle(enemyRoot)
+                                        char.HumanoidRootPart.CFrame = CFrame.new(enemyRoot.Position)
                                         posmons = enemyRoot.Position
                                     else
                                         AiAttackWithTP(enemyRoot.Position)
