@@ -14,8 +14,7 @@ local UIListLayout = Instance.new("UIListLayout")
 --Properties:
 
 ScreenGui.Name = ""
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Parent = game:GetService("CoreGui")
 
 Index.Name = "Index"
 Index.Parent = ScreenGui
