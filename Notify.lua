@@ -8,8 +8,8 @@ local tweeninfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.I
 -- Instances:
 
 local ScreenGui = game:GetService("CoreGui"):FindFristChild("NotificationUI") or Instance.new("ScreenGui")
-local Index = Instance.new("Frame")
-local UIListLayout = Instance.new("UIListLayout")
+local Index = ScreenGui:FindFirstChild("Index") or Instance.new("Frame")
+local UIListLayout = Index:FindFirstChild("UIListLayout") or Instance.new("UIListLayout")
 
 --Properties:
 
@@ -32,9 +32,6 @@ UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 UIListLayout.Padding = UDim.new(0, 5)
 
 local function CreateNotifyFrame(Stat, Message)
-	-- Gui to Lua
-	-- Version: 3.2
-
 	-- Instances:
 
 	local State = Instance.new("Frame")
