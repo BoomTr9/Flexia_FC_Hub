@@ -7,7 +7,7 @@ local tweeninfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.I
 
 -- Instances:
 
-local ScreenGui = game:GetService("CoreGui").NotificationUI or Instance.new("ScreenGui")
+local ScreenGui = game:GetService("CoreGui"):FindFristChild("NotificationUI") or Instance.new("ScreenGui")
 local Index = Instance.new("Frame")
 local UIListLayout = Instance.new("UIListLayout")
 
