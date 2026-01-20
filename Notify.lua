@@ -1,22 +1,57 @@
 local Module = {}
 
+Module.Status = {
+	Info = {Text = "Info", Color = Color3.fromRGB(0, 170, 255)},
+	Success = {Text = "Success", Color = Color3.fromRGB(0, 200, 0)},
+	Warning = {Text = "Warning", Color = Color3.fromRGB(255, 170, 0)},
+	Error = {Text = "Error", Color = Color3.fromRGB(255, 0, 0)},
+	Notification = {Text = "Notification", Color = Color3.fromRGB(170, 0, 255)},
+}
+
 -- Variable:
 
+local function rstr(length)
+    if not length or length <= 0 then return "" end
+	local Random = Random.new() -- ใช้ Random object ของ Roblox
+	local charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    local t = {}
+    local n = #charset
+    for i = 1, length do
+        local idx = Random:NextInteger(1, n)
+        t[i] = charset:sub(idx, idx)
+    end
+    return table.concat(t)
+end
+
+
+
 local tweenservice = game:GetService("TweenService")
-local tweeninfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, false, 0)
+local tweeninfo = TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, false, 0)
 
 -- Instances:
 
-local ScreenGui = game:GetService("CoreGui"):FindFirstChild("NotificationUI") or Instance.new("ScreenGui")
-local Index = ScreenGui:FindFirstChild("Index") or Instance.new("Frame")
+if not getgenv().notyui then
+	ScreenGui = Instance.new("ScreenGui")
+	getgenv().notyui = ScreenGui
+else
+	ScreenGui = getgenv().notyui
+end
+
+if not getgenv().notyinx then
+	Index = Instance.new("Frame")
+	getgenv().notyinx = Index
+else
+	Index = getgenv().notyinx
+end
+
 local UIListLayout = Index:FindFirstChild("UIListLayout") or Instance.new("UIListLayout")
 
 --Properties:
 
-ScreenGui.Name = "NotificationUI"
+ScreenGui.Name = rstr(20)
 ScreenGui.Parent = game:GetService("CoreGui")
 
-Index.Name = "Index"
+Index.Name = rstr(10)
 Index.Parent = ScreenGui
 Index.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Index.BackgroundTransparency = 1.000
@@ -31,137 +66,153 @@ UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 UIListLayout.Padding = UDim.new(0, 5)
 
-local function CreateNotifyFrame(Stat, Message)
-	-- Instances:
-
+-- function build frame:
+local function CreateNotifyFrame(Stat, Message, Duration)
+	--// Instances
 	local State = Instance.new("Frame")
+	local UICorner = Instance.new("UICorner")
+	local UIStroke = Instance.new("UIStroke")
+
 	local Head = Instance.new("Frame")
-	local State_2 = Instance.new("TextLabel")
-	local UIGradient = Instance.new("UIGradient")
+	local HeadCorner = Instance.new("UICorner")
+	local Accent = Instance.new("Frame")
+	local Title = Instance.new("TextLabel")
+
 	local Body = Instance.new("Frame")
-	local About = Instance.new("TextLabel")
+	local BodyCorner = Instance.new("UICorner")
+	local Msg = Instance.new("TextLabel")
 
-	--Properties:
-
-	State.Name = "State"
+	--// State (Main)
+	State.Name = "Notify"
 	State.Parent = Index
 	State.AnchorPoint = Vector2.new(1, 0.5)
-	State.BackgroundColor3 = Color3.fromRGB(255, 0, 255)
-	State.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	State.Position = UDim2.new(1, -20, 0.5, 0)
+	State.Size = UDim2.new(0, 0, 0.12, 0)
+	State.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+	State.BackgroundTransparency = 0.05
 	State.BorderSizePixel = 0
-	State.Size = UDim2.new(0, 0, 0.099, 0)
-	State.ZIndex = 9999
+	State.ZIndex = 50
 
-	Head.Name = "Head"
+	UICorner.CornerRadius = UDim.new(0, 14)
+	UICorner.Parent = State
+
+	UIStroke.Parent = State
+	UIStroke.Color = Color3.fromRGB(255, 255, 255)
+	UIStroke.Transparency = 0.9
+	UIStroke.Thickness = 1
+
+	--// Head
 	Head.Parent = State
-	Head.AnchorPoint = Vector2.new(1, 0.5)
-	Head.BackgroundColor3 = Color3.fromRGB(63, 63, 63)
-	Head.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Head.Size = UDim2.new(1, 0, 0.35, 0)
+	Head.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 	Head.BorderSizePixel = 0
-	Head.Position = UDim2.new(1, 0, 0.5, 0)
-	Head.Size = UDim2.new(0, 0, 1, 0)
-	Head.ZIndex = 10000
+	Head.ZIndex = 51
 
-	State_2.Name = "State"
-	State_2.Parent = Head
-	State_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	State_2.BackgroundTransparency = 1.000
-	State_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	State_2.BorderSizePixel = 0
-	State_2.Position = UDim2.new(0.039316345, 0, 0, 0)
-	State_2.Size = UDim2.new(0.960683763, 0, 0.32911393, 0)
-	State_2.ZIndex = 10000
-	State_2.Font = Enum.Font.SourceSansBold
-	State_2.Text = "Notication"
-	State_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-	State_2.TextScaled = true
-	State_2.TextSize = 14.000
-	State_2.TextWrapped = true
-	State_2.TextXAlignment = Enum.TextXAlignment.Left
+	HeadCorner.CornerRadius = UDim.new(0, 14)
+	HeadCorner.Parent = Head
 
-	UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(75, 75, 75)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
-	UIGradient.Parent = Head
+	--// Accent bar
+	Accent.Parent = Head
+	Accent.Size = UDim2.new(0.02, 0, 1, 0)
+	Accent.BackgroundColor3 = Stat.Color
+	Accent.BorderSizePixel = 0
+	Accent.ZIndex = 52
 
-	Body.Name = "Body"
+	--// Title
+	Title.Parent = Head
+	Title.Position = UDim2.new(0.05, 0, 0, 0)
+	Title.Size = UDim2.new(0.93, 0, 1, 0)
+	Title.BackgroundTransparency = 1
+	Title.Text = Stat.Text
+	Title.Font = Enum.Font.GothamBold
+	Title.TextSize = 18
+	Title.TextColor3 = Color3.fromRGB(240, 240, 240)
+	Title.TextXAlignment = Enum.TextXAlignment.Left
+	Title.ZIndex = 53
+
+	--// Body
 	Body.Parent = State
-	Body.AnchorPoint = Vector2.new(1, 1)
-	Body.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
-	Body.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Body.AnchorPoint = Vector2.new(0, 1)
+	Body.Position = UDim2.new(0, 0, 1, 0)
+	Body.Size = UDim2.new(1, 0, 0, 0)
+	Body.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+	Body.BackgroundTransparency = 0.05
 	Body.BorderSizePixel = 0
-	Body.Position = UDim2.new(1, 0, 1, 0)
-	Body.Size = UDim2.new(0, 0, 1, 0)
-	Body.ZIndex = 10001
+	Body.ZIndex = 51
 
-	About.Name = "About"
-	About.Parent = Body
-	About.Text = Message
-	About.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	About.BackgroundTransparency = 1.000
-	About.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	About.BorderSizePixel = 0
-	About.Position = UDim2.new(0.0257611275, 0, 0, 0)
-	About.Size = UDim2.new(0.974238873, 0, 1, 0)
-	About.ZIndex = 10001
-	About.Font = Enum.Font.SourceSans
-	About.TextColor3 = Color3.fromRGB(255, 255, 255)
-	About.TextTransparency = 1
-	About.TextSize = 24.000
-	About.TextWrapped = true
-	About.TextXAlignment = Enum.TextXAlignment.Left
-	About.TextYAlignment = Enum.TextYAlignment.Top
+	BodyCorner.CornerRadius = UDim.new(0, 14)
+	BodyCorner.Parent = Body
 
-	-- Change:
-	if Stat == "Notification" then
-		State_2.Text = Stat
-		State.BackgroundColor3 = Color3.fromRGB(255, 0, 255)
-	elseif Stat == "Error" then
-		State_2.Text = Stat
-		State.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-	end
+	--// Message
+	Msg.Parent = Body
+	Msg.Position = UDim2.new(0.05, 0, 0.05, 0)
+	Msg.Size = UDim2.new(0.9, 0, 0.9, 0)
+	Msg.BackgroundTransparency = 1
+	Msg.Text = Message
+	Msg.Font = Enum.Font.Gotham
+	Msg.TextSize = 15
+	Msg.TextWrapped = true
+	Msg.TextXAlignment = Enum.TextXAlignment.Left
+	Msg.TextYAlignment = Enum.TextYAlignment.Top
+	Msg.TextColor3 = Color3.fromRGB(220, 220, 220)
+	Msg.TextTransparency = 1
+	Msg.ZIndex = 52
 
-	-- Animate:
-	local tweenstate = tweenservice:Create(State, tweeninfo, {Size = UDim2.new(0.250, 0, 0.099)})
-	tweenstate:Play()
-	
-	task.wait(.4)
+	--// Animation
+	local tweenOpen = tweenservice:Create(
+		State,
+		tweeninfo,
+		{ Size = UDim2.new(0.28, 0, 0.12, 0) }
+	)
+	tweenOpen:Play()
+	tweenOpen.Completed:Wait()
 
-	local tweenbody = tweenservice:Create(Body, tweeninfo, {Size = UDim2.new(1, 0, 1, 0)})
-	tweenbody:Play()
-	tweenbody.Completed:Wait()
+	local tweenBodyIn = tweenservice:Create(
+		Body,
+		tweeninfo,
+		{ Size = UDim2.new(1, 0, 0.65, 0) }
+	)
+	tweenBodyIn:Play()
+	tweenBodyIn.Completed:Wait()
 
-	Head.Size = UDim2.new(0.893, 0, 1, 0)
+	tweenservice:Create(
+		Msg,
+		tweeninfo,
+		{ TextTransparency = 0 }
+	):Play()
 
-	local tweenbody2 = tweenservice:Create(Body, tweeninfo, {Size = UDim2.new(1, 0, 0.671, 0)})
-	tweenbody2:Play()
-	
-	task.wait(.2)
-	
-	local tweentextt = tweenservice:Create(About, tweeninfo, {TextTransparency = 0})
-	tweentextt:Play()
-	
-	tweenbody2.Completed:Wait()
-	task.wait(5)
-	local tweenend = tweenservice:Create(Body, tweeninfo, {Size = UDim2.new(1, 0, 1, 0)})
-	tweenend:Play()
-	local tweentextt2 = tweenservice:Create(About, tweeninfo, {TextTransparency = 1})
-	tweentextt2:Play()
-	tweenend.Completed:Wait()
-	
-	Head.Size = UDim2.new(0, 0, 1, 0)
-	
-	local tweenend2state = tweenservice:Create(State, tweeninfo, {Size = UDim2.new(0, 0, 0.099, 0)})
-	local tweenend2body = tweenservice:Create(Body, tweeninfo, {Size = UDim2.new(0, 0, 1, 0)})
-	tweenend2body:Play()
-	task.wait(.2)
-	tweenend2state:Play()
-	tweenend2state.Completed:Wait()
-	
+	task.wait(Duration)
+
+	--// Close animation
+	tweenservice:Create(
+		Msg,
+		tweeninfo,
+		{ TextTransparency = 1 }
+	):Play()
+
+	local tweenBodyOut = tweenservice:Create(
+		Body,
+		tweeninfo,
+		{ Size = UDim2.new(1, 0, 0, 0) }
+	)
+	tweenBodyOut:Play()
+	tweenBodyOut.Completed:Wait()
+
+	local tweenClose = tweenservice:Create(
+		State,
+		tweeninfo,
+		{ Size = UDim2.new(0, 0, 0.12, 0) }
+	)
+	tweenClose:Play()
+	tweenClose.Completed:Wait()
+
 	State:Destroy()
 end
 
-function Module.Notify(Stat, Message)
+
+function Module.Notify(Stat, Message, dur)
 	spawn(function()
-		CreateNotifyFrame(Stat, Message)
+		CreateNotifyFrame(Stat, Message, dur)
 	end)
 end
 
